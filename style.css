@@ -1,0 +1,2010 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  background: #e9ddc6;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+  background: #e9ddc6;
+}
+
+html.intro-locked,
+html.intro-locked body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.sa-music-button {
+  position: fixed;
+  right: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 9999;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(102, 45, 0, .45);
+  border-radius: 50%;
+  background: rgba(247, 243, 225, .94);
+  color: #662d00;
+  box-shadow: 0 3px 14px rgba(60, 35, 10, .24);
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.sa-music-button:focus-visible {
+  outline: 2px solid #662d00;
+  outline-offset: 3px;
+}
+
+.sa-scroll-hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: default;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(73, 35, 8, .6));
+  transform: translateX(-50%);
+  transition: opacity .35s ease, visibility .35s ease;
+  animation: sa-scroll-hint-bounce 1.4s ease-in-out infinite;
+}
+
+.sa-scroll-hint::before {
+  content: "";
+  width: 15px;
+  height: 15px;
+  border-right: 3px solid currentColor;
+  border-bottom: 3px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.sa-scroll-hint.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  animation: none;
+}
+
+.sa-scroll-hint:focus-visible {
+  outline: 2px solid #662d00;
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+@keyframes sa-scroll-hint-bounce {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(8px);
+    opacity: .68;
+  }
+}
+
+/* Full-screen opening artwork — Figma source canvas: 1080 × 1920. */
+.intro-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: rgba(247, 243, 225, .72);
+  -webkit-backdrop-filter: blur(3px) saturate(.75);
+  backdrop-filter: blur(3px) saturate(.75);
+  cursor: pointer;
+  touch-action: none;
+  transition: opacity .4s ease 1.75s;
+}
+
+.intro-cover__stage {
+  position: relative;
+  width: max(100vw, 56.25vh);
+  height: max(100vh, 177.778vw);
+  overflow: hidden;
+  background: transparent;
+}
+
+.intro-cover__art {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: fill;
+  will-change: transform, opacity;
+}
+
+.intro-cover__tree-main {
+  left: -3.426%;
+  top: 0;
+  width: 106.852%;
+  height: 82.396%;
+  z-index: 1;
+}
+
+.intro-cover__bottom {
+  left: -3.426%;
+  top: 23.802%;
+  width: 218.611%;
+  height: 135.833%;
+  z-index: 2;
+}
+
+.intro-cover__palm {
+  left: -3.426%;
+  top: 38.333%;
+  width: 86.296%;
+  height: 61.667%;
+  z-index: 3;
+}
+
+.intro-cover__mango-tree {
+  left: -71.111%;
+  top: -10.260%;
+  width: 142.315%;
+  height: 127.708%;
+  z-index: 4;
+}
+
+.intro-cover__monkey {
+  left: 50%;
+  top: -6.875%;
+  width: 27.037%;
+  height: 90.365%;
+  z-index: 5;
+}
+
+.intro-cover__prompt {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font: 600 clamp(14px, 4vw, 28px)/1.1 Cinzel, Georgia, serif;
+  text-shadow: 0 2px 5px rgba(62, 31, 5, .62);
+  animation: intro-prompt-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes intro-prompt-pulse {
+
+  0%,
+  100% {
+    opacity: .78;
+    transform: translate(-50%, -50%) scale(.98);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+.intro-cover.is-opening {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-cover.is-opening .intro-cover__prompt {
+  opacity: 0;
+  transform: translate(-50%, -60%) scale(.9);
+  animation: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.intro-cover.is-opening .intro-cover__monkey {
+  transform: translate3d(0, -125%, 0);
+  transition: transform 1.55s cubic-bezier(.55, .03, .82, .35);
+}
+
+.intro-cover.is-opening .intro-cover__mango-tree {
+  transform: translate3d(-115%, -8%, 0) rotate(-4deg);
+  transition: transform 1.75s cubic-bezier(.55, .03, .82, .35) .06s;
+}
+
+.intro-cover.is-opening .intro-cover__tree-main {
+  transform: translate3d(115%, -5%, 0) rotate(4deg);
+  transition: transform 1.75s cubic-bezier(.55, .03, .82, .35) .12s;
+}
+
+.intro-cover.is-opening .intro-cover__palm {
+  transform: translate3d(-120%, 45%, 0) rotate(-5deg);
+  transition: transform 1.85s cubic-bezier(.55, .03, .82, .35) .09s;
+}
+
+.intro-cover.is-opening .intro-cover__bottom {
+  transform: translate3d(15%, 115%, 0);
+  transition: transform 1.95s cubic-bezier(.55, .03, .82, .35) .14s;
+}
+
+/* The Figma section's original coordinate canvas is 1080 × 5740.
+       All positional values below use its source coordinates / 1080. */
+.opening {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 5740;
+  margin: 0 auto;
+  z-index: 2;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: inline-size;
+  background: transparent;
+}
+
+.opening__layer {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.opening__background {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 94.042%;
+  object-fit: fill;
+  z-index: -3;
+}
+
+.opening__railing {
+  left: -1.204%;
+  top: 81.777%;
+  width: 109.074%;
+  height: 18.223%;
+  z-index: 2;
+}
+
+.opening__mango {
+  width: 22.549%;
+  height: 6.315%;
+  z-index: 3;
+}
+
+/* Figma places the source box first, then rotates it around top-left. */
+.opening__mango--three {
+  left: 16%;
+  top: 78%;
+  transform: rotate(-15deg);
+  transform-origin: center;
+}
+
+.opening__mango--one {
+  left: 38.7%;
+  top: 78%;
+  transform: rotate(15deg);
+  transform-origin: center;
+}
+
+.opening__mango--two {
+  left: 61.4%;
+  top: 78%;
+  transform: rotate(-15deg);
+  transform-origin: center;
+}
+
+.opening__ganesh-small {
+  left: 46.852%;
+  top: 1.986%;
+  width: 8.148%;
+  height: 1.533%;
+  z-index: 2;
+}
+
+.opening__blessing {
+  position: absolute;
+  left: 27.963%;
+  top: 3.519%;
+  width: 45.926%;
+  height: .296%;
+  z-index: 2;
+  color: #662d00;
+  text-align: center;
+  white-space: nowrap;
+  font: 400 2.315cqw / .88 "PT Sans", Arial, sans-serif;
+}
+
+.opening__logo {
+  left: 26.944%;
+  top: 4.861%;
+  width: 46.111%;
+  height: 8.415%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+.opening__names {
+  position: absolute;
+  left: 10.185%;
+  top: 15.366%;
+  width: 72.685%;
+  z-index: 2;
+  margin: 0;
+  color: #617800;
+  text-align: center;
+  white-space: nowrap;
+  font: 400 13.889cqw / .9 Italianno, cursive;
+}
+
+.opening__hashtag {
+  position: absolute;
+  left: 0;
+  top: 41.655%;
+  width: 100%;
+  height: 4.999%;
+  z-index: 2;
+  margin: 0;
+  color: #fff;
+  text-align: center;
+  font: 400 8cqw / 1.35 Cinzel, Georgia, serif;
+  text-transform: uppercase;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.opening__reveal {
+  position: absolute;
+  left: 24.537%;
+  top: 75.696%;
+  width: 53.426%;
+  height: .923%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #7b3e1f;
+  text-align: center;
+  font: 400 4.167cqw / 1 Cinzel, Georgia, serif;
+}
+
+.opening__reveal:focus-visible {
+  outline: 2px solid #7b3e1f;
+  outline-offset: 8px;
+}
+
+/* Section 2 — Figma source canvas: 1080 × 1922, beginning at Y=5371. */
+.story {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 1922;
+  margin: max(-369px, -34.167vw) auto 0;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+  container-type: inline-size;
+  background: #f7f3e1;
+}
+
+.story__layer {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.story__background {
+  left: 0;
+  top: 0;
+  width: 100.093%;
+  height: 100%;
+  z-index: -3;
+}
+
+.story__scroll-bottom {
+  left: 5.000%;
+  top: 20.799%;
+  width: 90.000%;
+  height: 63.294%;
+  z-index: -1;
+  will-change: transform;
+}
+
+.story__scroll-top {
+  left: 5.500%;
+  top: 19.047%;
+  width: 89.000%;
+  height: 7.224%;
+  z-index: 4;
+}
+
+.story__florals {
+  left: -2.778%;
+  top: 64.516%;
+  width: 38.889%;
+  height: 27.680%;
+  z-index: 2;
+}
+
+.story__monkey {
+  left: 74.907%;
+  top: 8.325%;
+  width: 20.741%;
+  height: 69.459%;
+  z-index: 2;
+  will-change: transform;
+}
+
+.story__leaf {
+  width: 17.870%;
+  height: 25.078%;
+  z-index: 1;
+}
+
+.story__leaf--right {
+  left: 77.778%;
+  top: 5.827%;
+}
+
+.story__leaf--left {
+  left: 8.333%;
+  top: 14.776%;
+}
+
+.story__portrait {
+  left: 72.037%;
+  top: 22.060%;
+  width: 23.611%;
+  height: 17.638%;
+  z-index: 1;
+}
+
+.story__ganesh {
+  left: 47.593%;
+  top: 29.136%;
+  width: 6.852%;
+  height: 3.850%;
+  z-index: 2;
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+}
+
+.story__copy {
+  position: absolute;
+  left: 25.500%;
+  top: 33.195%;
+  width: 49.000%;
+  height: 40.500%;
+  z-index: 3;
+  color: #547b05;
+  text-align: center;
+  font-family: "PT Sans", Arial, sans-serif;
+  font-size: 2.350cqw;
+  font-weight: 400;
+  line-height: 1.1;
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+}
+
+/* The Figma text uses deliberate blank-line groups, not one shared paragraph gap. */
+.story__copy p {
+  margin: 0;
+}
+
+.story__copy .story__invocation {
+  margin-bottom: 6.111cqw;
+}
+
+.story__copy .story__body {
+  margin-bottom: 4.074cqw;
+}
+
+.story__copy .story__invitation {
+  margin-bottom: 6.111cqw;
+}
+
+.story__copy .story__name {
+  margin: 0 0 4.074cqw;
+  font: 400 11.111cqw/.18 Italianno, cursive;
+}
+
+.story__copy .story__daughter {
+  margin-bottom: 4.074cqw;
+}
+
+.story__copy .story__with {
+  margin: 0 0 6.111cqw;
+  font-size: 2.778cqw;
+  line-height: .733;
+}
+
+/* Junction at Figma Y=7293: lights begin 154px above this boundary. */
+.junction {
+  position: relative;
+  width: min(100%, 1080px);
+  height: 0;
+  margin: 0 auto;
+  z-index: 6;
+}
+
+.junction__lights {
+  position: absolute;
+  left: -2.685%;
+  top: max(-154px, -14.259vw);
+  width: 102.685%;
+  height: min(360px, 33.333vw);
+  max-width: none;
+  z-index: 1;
+  animation: fairy-light-breathe 4.5s ease-in-out infinite;
+}
+
+.junction__sparkles {
+  position: absolute;
+  left: -2.685%;
+  top: max(-154px, -14.259vw);
+  width: 102.685%;
+  height: min(360px, 33.333vw);
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+  mix-blend-mode: screen;
+}
+
+.junction__sparkle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: #fffbd0;
+  box-shadow: 0 0 3px 1px #fff9a8, 0 0 8px 3px rgba(255, 221, 91, .8);
+  opacity: .15;
+  transform: translate(-50%, -50%) scale(.65);
+  animation: fairy-light-flicker var(--duration) var(--delay) infinite;
+}
+
+.junction__tree {
+  position: absolute;
+  left: 60.370%;
+  top: max(-471px, -43.611vw);
+  width: 39.907%;
+  height: min(1421px, 131.574vw);
+  max-width: none;
+  z-index: 3;
+}
+
+@keyframes fairy-light-breathe {
+
+  0%,
+  100% {
+    filter: brightness(.92);
+  }
+
+  50% {
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes fairy-light-flicker {
+
+  0%,
+  100% {
+    opacity: .12;
+    transform: translate(-50%, -50%) scale(.65);
+  }
+
+  11% {
+    opacity: .95;
+    transform: translate(-50%, -50%) scale(1.35);
+  }
+
+  18% {
+    opacity: .24;
+    transform: translate(-50%, -50%) scale(.8);
+  }
+
+  46% {
+    opacity: .75;
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+
+  54% {
+    opacity: .16;
+    transform: translate(-50%, -50%) scale(.7);
+  }
+
+  79% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.45);
+  }
+
+  86% {
+    opacity: .2;
+    transform: translate(-50%, -50%) scale(.75);
+  }
+}
+
+/* Section 3 — Figma source canvas: 1080 × 5758. */
+.events {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 5758;
+  margin: 0 auto;
+  overflow: visible;
+  isolation: isolate;
+  container-type: inline-size;
+  z-index: 2;
+}
+
+.events__background,
+.events__mayra {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.events__background {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.events__mayra {
+  left: 0;
+  top: 29.819%;
+  width: 100%;
+  height: 8.214%;
+  z-index: 1;
+}
+
+.events__petal {
+  position: absolute;
+  display: block;
+  max-width: none;
+  z-index: 6;
+  transform-origin: top left;
+}
+
+/* Keep event wrappers non-positioned: all Figma text coordinates are relative to .events. */
+.event {
+  width: 100%;
+  text-align: center;
+  color: #662d00;
+}
+
+.event__title {
+  position: absolute;
+  margin: 0;
+  font-weight: 400;
+  text-align: center;
+}
+
+.event__title--one {
+  left: 20.750%;
+  top: 5.627%;
+  width: 58.500%;
+  color: #829e56;
+  font: 400 13.889cqw/.867 "Great Vibes", cursive;
+}
+
+.event__title-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.event__title--two {
+  left: 15%;
+  top: 38.625%;
+  width: 70%;
+  color: #7d3419;
+  font: 400 7.870cqw/.9 Sacramento, cursive;
+}
+
+.event__title--three {
+  left: 20.833%;
+  top: 73.602%;
+  width: 58.333%;
+  color: #7d3419;
+  font: 400 13.889cqw/.733 Italianno, cursive;
+}
+
+.event__description,
+.event__venue {
+  position: absolute;
+  margin: 0;
+  text-align: center;
+  font-family: "PT Sans", Arial, sans-serif;
+  font-weight: 400;
+}
+
+.event__description {
+  left: 9.167%;
+  width: 81.574%;
+  font-size: 2.778cqw;
+  line-height: .733;
+}
+
+.event__description--one {
+  top: 11.083%;
+  color: #829e56;
+}
+
+.event__description--two {
+  top: 42.600%;
+  color: #80401f;
+}
+
+.event__description--three {
+  top: 77.891%;
+  color: #7d3419;
+}
+
+.event__venue {
+  width: 81.667%;
+  font-size: 3.241cqw;
+  line-height: .629;
+  letter-spacing: 0;
+}
+
+.event__venue--one {
+  left: 9.167%;
+  top: 16.830%;
+}
+
+.event__venue--two {
+  left: 11.019%;
+  top: 47.222%;
+  color: #829e56;
+}
+
+.event__venue--three {
+  left: 8.704%;
+  top: 83.085%;
+  color: #829e56;
+}
+
+.event__date {
+  position: absolute;
+  width: 100%;
+  height: 1.928%;
+  color: #662d00;
+  font-family: Cinzel, Georgia, serif;
+  font-size: 3.241cqw;
+}
+
+.event__date span {
+  position: absolute;
+  top: 61.261%;
+  white-space: nowrap;
+}
+
+.event__date .weekday {
+  left: 16.76%;
+  width: 18.80%;
+}
+
+.event__date .time {
+  left: 56.85%;
+  width: 26.57%;
+}
+
+.event__date .month {
+  left: 38.80%;
+  top: 111.712%;
+  width: 17.96%;
+}
+
+.event__date b {
+  position: absolute;
+  left: 40.185%;
+  top: 0;
+  width: 15.185%;
+  font: 400 11.111cqw/.72 "Pinyon Script", cursive;
+}
+
+.event__date::before,
+.event__date::after {
+  content: "";
+  position: absolute;
+  top: 38%;
+  width: 22%;
+  height: 1.852px;
+  background: currentColor;
+  opacity: .85;
+  z-index: 1;
+}
+
+.event__date::before {
+  left: 15%;
+}
+
+.event__date::after {
+  right: 15%;
+}
+
+/* Yeh Shaam Mastani: Figma has a short rule above and below each label. */
+.event__date--one::before,
+.event__date--one::after {
+  display: none;
+}
+
+.event__date--one .weekday::before,
+.event__date--one .weekday::after,
+.event__date--one .time::before,
+.event__date--one .time::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: .45px;
+  background: currentColor;
+  opacity: .7;
+}
+
+.event__date--one .weekday::before,
+.event__date--one .time::before {
+  top: -.741cqw;
+}
+
+.event__date--one .weekday::after,
+.event__date--one .time::after {
+  top: 1.28em;
+}
+
+.event__date--one {
+  top: 12.695%;
+}
+
+.event__date--one b {
+  top: 0;
+  transform: translateY(2.222cqw);
+}
+
+/* Nani Ghar ka Angan: its date row uses its own Figma spacing. */
+.event__date--two {
+  top: 43.973%;
+  color: #829e56;
+}
+
+.event__date--two::before,
+.event__date--two::after {
+  display: none;
+}
+
+.event__date--two .weekday::before,
+.event__date--two .weekday::after,
+.event__date--two .time::before,
+.event__date--two .time::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: .45px;
+  background: currentColor;
+  opacity: .7;
+}
+
+.event__date--two .weekday::before,
+.event__date--two .time::before {
+  top: -.741cqw;
+}
+
+.event__date--two .weekday::after,
+.event__date--two .time::after {
+  top: 1.28em;
+}
+
+.event__date--two span {
+  top: 49.55%;
+}
+
+.event__date--two .month {
+  top: 100%;
+}
+
+/* Dil Dhadakne Do: match the separated day/time rules and date rhythm. */
+.event__date--three {
+  top: 79.349%;
+  color: #547b05;
+}
+
+.event__date--three::before,
+.event__date--three::after {
+  display: none;
+}
+
+.event__date--three .weekday::before,
+.event__date--three .weekday::after,
+.event__date--three .time::before,
+.event__date--three .time::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: .45px;
+  background: currentColor;
+  opacity: .7;
+}
+
+.event__date--three .weekday::before,
+.event__date--three .time::before {
+  top: -.741cqw;
+}
+
+.event__date--three .weekday::after,
+.event__date--three .time::after {
+  top: 1.28em;
+}
+
+.event__date--three span {
+  top: 49.55%;
+}
+
+.event__date--three .month {
+  top: 100%;
+}
+
+/* Section 4 — Figma source canvas: 1080 × 3976, beginning at Y=13042. */
+.events45 {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 3976;
+  margin: max(-9px, -.833vw) auto 0;
+  overflow: visible;
+  isolation: isolate;
+  container-type: inline-size;
+  z-index: 6;
+}
+
+.events45__art {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.events45__background {
+  left: -1.759%;
+  top: 0;
+  width: 103.519%;
+  height: 100%;
+  z-index: -2;
+}
+
+.events45__left-tree {
+  left: 1.019%;
+  top: -7.218%;
+  width: 33.796%;
+  height: 30.835%;
+  z-index: 20;
+}
+
+.events45__pool {
+  left: 0;
+  top: 1.861%;
+  width: 100%;
+  height: 16.348%;
+  z-index: -1;
+}
+
+.pool-text-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ffffff;
+  z-index: 100;
+  width: 100%;
+  pointer-events: none;
+}
+
+.pool-hashtag {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(32px, 8cqw, 72px);
+  letter-spacing: 0.1em;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2cqw;
+}
+
+.pool-subtitle {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: clamp(24px, 6cqw, 48px);
+  letter-spacing: 0.15em;
+  text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.events45__right-tree {
+  left: 42.500%;
+  top: -7.050%;
+  width: 57.500%;
+  height: 28.381%;
+  z-index: 20;
+}
+
+.events45__portrait {
+  left: 44.537%;
+  top: 28.974%;
+  width: 39.722%;
+  height: 20.247%;
+  z-index: 1;
+  opacity: 0;
+  transform: translate3d(125%, 0, 0) rotate(3deg);
+  transform-origin: 50% 85%;
+  will-change: transform, opacity, filter;
+}
+
+.events45__portrait.is-arriving {
+  animation: portrait-brake-in 1.15s both;
+}
+
+@keyframes portrait-brake-in {
+  0% {
+    opacity: 0;
+    transform: translate3d(125%, 0, 0) rotate(3deg);
+    filter: blur(4px);
+  }
+
+  52% {
+    opacity: 1;
+    transform: translate3d(-7%, 0, 0) rotate(-2deg);
+    filter: blur(0);
+  }
+
+  67% {
+    transform: translate3d(-3%, 0, 0) rotate(-7deg);
+  }
+
+  82% {
+    transform: translate3d(2%, 0, 0) rotate(2deg);
+  }
+
+  92% {
+    transform: translate3d(-.7%, 0, 0) rotate(-.8deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+    filter: blur(0);
+  }
+}
+
+.events45__moon {
+  left: 48.148%;
+  top: 69.894%;
+  width: 29.630%;
+  height: 8.400%;
+  z-index: 1;
+  will-change: transform, opacity;
+}
+
+.event45 {
+  width: 100%;
+  text-align: center;
+}
+
+.event45__title,
+.event45__desc,
+.event45__venue {
+  position: absolute;
+  margin: 0;
+  text-align: center;
+}
+
+.event45__title {
+  font-weight: 400;
+}
+
+.event45__title--archie {
+  left: 10.185%;
+  top: 17.706%;
+  width: 79.630%;
+  color: #547b05;
+  font: 400 9.259cqw/1.2 "Great Vibes", cursive;
+}
+
+.event45__title--archie .event45__initial {
+  display: inline-block;
+  font-size: 1.18em;
+  line-height: 0;
+}
+
+.event45__title--wedding {
+  left: 11%;
+  top: 54.225%;
+  width: 78%;
+  color: #850a0e;
+  font: 400 9.259cqw/1.1 "Great Vibes", cursive;
+}
+
+.event45__title-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.event45__desc {
+  font: 400 2.778cqw/1.05 "PT Sans", Arial, sans-serif;
+}
+
+.event45__desc--archie {
+  left: 9.167%;
+  top: 20.825%;
+  width: 81.574%;
+  color: #547b05;
+}
+
+.event45__desc--wedding {
+  left: 21.296%;
+  top: 61.368%;
+  width: 62.778%;
+  color: #8c4b32;
+  line-height: 1.333;
+}
+
+.event45__venue {
+  left: 16.296%;
+  top: 27.893%;
+  width: 44.907%;
+  color: #662d00;
+  text-align: left;
+  font: 400 3.148cqw/1.176 "PT Sans", Arial, sans-serif;
+}
+
+.event45__date {
+  position: absolute;
+  width: 100%;
+  height: 2.792%;
+  color: #662d00;
+  font-family: Cinzel, Georgia, serif;
+  font-size: 3.241cqw;
+}
+
+.event45__date span {
+  position: absolute;
+  top: 61.261%;
+  white-space: nowrap;
+}
+
+.event45__date .weekday {
+  left: 17.13%;
+  width: 18.80%;
+}
+
+.event45__date .time {
+  left: 57.22%;
+  width: 26.57%;
+}
+
+.event45__date .month {
+  left: 39.17%;
+  top: 111.712%;
+  width: 17.96%;
+}
+
+.event45__date b {
+  position: absolute;
+  left: 40.926%;
+  top: 0;
+  width: 14.815%;
+  font: 400 11.111cqw/.72 "Pinyon Script", cursive;
+}
+
+.event45__date::before,
+.event45__date::after {
+  content: "";
+  position: absolute;
+  top: 38%;
+  width: 22%;
+  height: 1.852px;
+  background: currentColor;
+  opacity: .85;
+  z-index: 1;
+}
+
+.event45__date::before {
+  left: 15%;
+}
+
+.event45__date::after {
+  right: 15%;
+}
+
+.event45__date--archie {
+  top: 21.781%;
+}
+
+.event45__date--archie b {
+  top: 0;
+  transform: translateY(1.574cqw);
+}
+
+.event45__date--archie::before,
+.event45__date--archie::after {
+  content: none !important;
+  display: none !important;
+}
+
+.event45__date--archie .weekday::before,
+.event45__date--archie .weekday::after,
+.event45__date--archie .time::before,
+.event45__date--archie .time::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: .45px;
+  background: currentColor;
+  opacity: .7;
+}
+
+.event45__date--archie .weekday::before,
+.event45__date--archie .time::before {
+  top: -.741cqw;
+}
+
+.event45__date--archie .weekday::after,
+.event45__date--archie .time::after {
+  top: 1.28em;
+}
+
+.event45__date--wedding {
+  top: 64.462%;
+}
+
+.event45__date--wedding b {
+  top: 0;
+  transform: translateY(1.574cqw);
+}
+
+.event45__date--wedding::before,
+.event45__date--wedding::after {
+  content: none !important;
+  display: none !important;
+}
+
+.event45__date--wedding .weekday::before,
+.event45__date--wedding .weekday::after,
+.event45__date--wedding .time::before,
+.event45__date--wedding .time::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: .45px;
+  background: currentColor;
+  opacity: .7;
+}
+
+.event45__date--wedding .weekday::before,
+.event45__date--wedding .time::before {
+  top: -.741cqw;
+}
+
+.event45__date--wedding .weekday::after,
+.event45__date--wedding .time::after {
+  top: 1.28em;
+}
+
+/* Section 5 — Figma source canvas: 1080 × 1920, beginning at Y=17018. */
+.couple {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 1920;
+  margin: 0 auto;
+  overflow: visible;
+  isolation: isolate;
+  container-type: inline-size;
+  z-index: 2;
+}
+
+.couple__art {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.couple__background {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.couple__portrait-main {
+  left: 8.333%;
+  top: 2.344%;
+  width: 81.481%;
+  height: 45.833%;
+  z-index: 1;
+}
+
+.couple__portrait-overlay {
+  left: 32.407%;
+  top: 10.625%;
+  width: 44.167%;
+  height: 29.115%;
+  z-index: 0;
+}
+
+.couple__rail {
+  left: -.370%;
+  top: 64.635%;
+  width: 100.833%;
+  height: 50.365%;
+  z-index: 1;
+}
+
+.couple__copy {
+  position: absolute;
+  left: 10.185%;
+  top: 48.958%;
+  width: 80.648%;
+  height: 31.302%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #672c00;
+  text-align: center;
+  font: 500 2.778cqw/1.433 "Cormorant Infant", Georgia, serif;
+  letter-spacing: .07em;
+}
+
+.couple__copy p {
+  margin: 0;
+}
+
+.couple__copy .couple__lead {
+  margin-bottom: 3.981cqw;
+  font-weight: 600;
+}
+
+.couple__copy .couple__paragraph--one,
+.couple__copy .couple__paragraph--two {
+  margin-bottom: 3.981cqw;
+}
+
+.couple__names {
+  position: absolute;
+  left: 16.759%;
+  top: 81.354%;
+  width: 67.593%;
+  height: 6.354%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: #828437;
+  text-align: center;
+  font: 400 9.259cqw/.72 Italianno, cursive;
+}
+
+/* Section 6 — Figma source canvas: 1080 × 2664, beginning at Y=19067. */
+.closing {
+  position: relative;
+  width: min(100%, 1080px);
+  aspect-ratio: 1080 / 2664;
+  margin: 0 auto;
+  overflow: hidden;
+  isolation: isolate;
+  container-type: inline-size;
+  z-index: 1;
+}
+
+.closing__art {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.closing__couple-bg {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 72.072%;
+  z-index: -3;
+}
+
+.closing__print {
+  left: 0;
+  top: 40.841%;
+  width: 100%;
+  height: 72.072%;
+  z-index: -2;
+}
+
+.closing__map {
+  left: 18.333%;
+  top: 8.671%;
+  width: 62.963%;
+  height: 10.811%;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.closing__map-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+.closing__building {
+  left: -5.648%;
+  top: 32.432%;
+  width: 112.315%;
+  height: 32.883%;
+  opacity: .95;
+  z-index: -1;
+}
+
+.closing__water {
+  left: -5.648%;
+  top: 65.315%;
+  width: 112.315%;
+  height: 41.329%;
+  opacity: .95;
+  z-index: -1;
+}
+
+.closing__tree-one {
+  left: 0;
+  top: 29.843%;
+  width: 42.037%;
+  height: 37.650%;
+  z-index: 1;
+}
+
+.closing__tree-two {
+  left: 61.409%;
+  top: 21.640%;
+  width: 38.889%;
+  height: 46.321%;
+  z-index: 1;
+}
+
+.closing__petal {
+  position: absolute;
+  display: block;
+  max-width: none;
+  z-index: 2;
+  transform-origin: top left;
+}
+
+.closing__location {
+  position: absolute;
+  left: 16.019%;
+  top: 21.659%;
+  width: 67.593%;
+  height: 4.580%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: #828437;
+  text-align: center;
+  font: 400 9.259cqw/.72 Italianno, cursive;
+}
+
+.closing__venue {
+  position: absolute;
+  left: 9.444%;
+  top: 26.239%;
+  width: 80.648%;
+  z-index: 2;
+  margin: 0;
+  color: #672c00;
+  text-align: center;
+  font: 600 4.444cqw/.9 "Cormorant Infant", Georgia, serif;
+  letter-spacing: .07em;
+}
+
+.closing__regards {
+  position: absolute;
+  left: 5.093%;
+  top: 69.632%;
+  width: 88.611%;
+  height: 28.490%;
+  z-index: 3;
+  color: #632800;
+  text-align: center;
+  font: 400 3.148cqw/normal Cinzel, Georgia, serif;
+}
+
+.closing__regards .closing__heading {
+  color: #6c7000;
+  font-size: 3.241cqw;
+  font-weight: 700;
+}
+
+.closing__regards .closing__body--35 {
+  font-size: 3.241cqw;
+}
+
+@media (min-width: 1081px) {
+  .opening {
+    box-shadow: 0 0 36px rgba(71, 39, 12, .18);
+  }
+}
+
+.opening__mango {
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: opacity .55s ease, transform .55s ease;
+}
+
+.opening__mango.is-revealed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opening__date {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  margin: 0;
+  color: #7b3e1f;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .55s ease .16s;
+}
+
+.opening__countdown-unit {
+  position: absolute;
+  top: 79%;
+  width: 25%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.opening__countdown-unit:nth-child(1) {
+  left: 20%;
+}
+
+.opening__countdown-unit:nth-child(2) {
+  left: 50%;
+}
+
+.opening__countdown-unit:nth-child(3) {
+  left: 80%;
+}
+
+.opening__countdown-value {
+  display: block;
+  font: 400 9.259cqw/1 Cinzel, Georgia, serif;
+}
+
+.opening__countdown-label {
+  display: block;
+  margin-top: 1.2cqw;
+  font: 400 2.315cqw/1 "PT Sans", Arial, sans-serif;
+  letter-spacing: .16em;
+}
+
+.opening.is-date-revealed .opening__date {
+  opacity: 1;
+}
+
+.sa-confetti-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sa-confetti-piece {
+  position: absolute;
+  left: var(--left);
+  top: -12vh;
+  width: var(--size);
+  height: calc(var(--size) * .45);
+  border-radius: 2px;
+  background: var(--color);
+  opacity: .95;
+  animation: sa-confetti-fall var(--duration) var(--delay) cubic-bezier(.22, .65, .38, 1) forwards;
+}
+
+@keyframes sa-confetti-fall {
+  0% {
+    transform: translate3d(0, -8vh, 0) rotate(0deg);
+  }
+
+  100% {
+    transform: translate3d(var(--drift), 112vh, 0) rotate(var(--turn));
+  }
+}
+
+.events {
+  overflow: hidden;
+  z-index: 4;
+}
+
+.events__petal,
+.closing__petal {
+  z-index: 0;
+  will-change: transform;
+}
+
+.event__title,
+.event__description,
+.event__date,
+.event45__title,
+.event45__desc,
+.event45__date,
+.closing__location,
+.closing__venue,
+.closing__regards {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .opening__mango,
+  .opening__date {
+    transition-duration: .01ms;
+  }
+
+  .events45__portrait {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none;
+  }
+
+  .junction__lights {
+    animation: none;
+    filter: none;
+  }
+
+  .junction__sparkles {
+    display: none;
+  }
+
+  .intro-cover,
+  .intro-cover__art {
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .intro-cover__prompt {
+    animation: none;
+  }
+}
+
+.events45 {
+  overflow: visible;
+}
+
+.events45__moon {
+  opacity: 0;
+}
+
+
+.jdgm-xx {
+  left: 0
+}
+
+:root {
+  --jdgm-primary-color: #108474;
+  --jdgm-secondary-color: rgba(16, 132, 116, 0.1);
+  --jdgm-star-color: #108474;
+  --jdgm-write-review-text-color: white;
+  --jdgm-write-review-bg-color: #108474;
+  --jdgm-paginate-color: #108474;
+  --jdgm-border-radius: 0;
+  --jdgm-reviewer-name-color: #108474
+}
+
+.jdgm-histogram__bar-content {
+  background-color: #108474
+}
+
+.jdgm-rev[data-verified-buyer=true] .jdgm-rev__icon.jdgm-rev__icon:after,
+.jdgm-rev__buyer-badge.jdgm-rev__buyer-badge {
+  color: white;
+  background-color: #108474
+}
+
+.jdgm-review-widget--small .jdgm-gallery.jdgm-gallery .jdgm-gallery__thumbnail-link:nth-child(8) .jdgm-gallery__thumbnail-wrapper.jdgm-gallery__thumbnail-wrapper:before {
+  content: "See more"
+}
+
+@media only screen and (min-width: 768px) {
+  .jdgm-gallery.jdgm-gallery .jdgm-gallery__thumbnail-link:nth-child(8) .jdgm-gallery__thumbnail-wrapper.jdgm-gallery__thumbnail-wrapper:before {
+    content: "See more"
+  }
+}
+
+.jdgm-prev-badge[data-average-rating='0.00'] {
+  display: none !important
+}
+
+.jdgm-author-all-initials {
+  display: none !important
+}
+
+.jdgm-author-last-initial {
+  display: none !important
+}
+
+.jdgm-rev-widg__title {
+  visibility: hidden
+}
+
+.jdgm-rev-widg__summary-text {
+  visibility: hidden
+}
+
+.jdgm-prev-badge__text {
+  visibility: hidden
+}
+
+.jdgm-rev__prod-link-prefix:before {
+  content: 'about'
+}
+
+.jdgm-rev__variant-label:before {
+  content: 'Variant: '
+}
+
+.jdgm-rev__out-of-store-text:before {
+  content: '(out of store)'
+}
+
+@media only screen and (min-width: 768px) {
+
+  .jdgm-rev__pics .jdgm-rev_all-rev-page-picture-separator,
+  .jdgm-rev__pics .jdgm-rev__product-picture {
+    display: none
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+  .jdgm-rev__pics .jdgm-rev_all-rev-page-picture-separator,
+  .jdgm-rev__pics .jdgm-rev__product-picture {
+    display: none
+  }
+}
+
+.jdgm-preview-badge[data-template="product"] {
+  display: none !important
+}
+
+.jdgm-preview-badge[data-template="collection"] {
+  display: none !important
+}
+
+.jdgm-preview-badge[data-template="index"] {
+  display: none !important
+}
+
+.jdgm-review-widget[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-verified-count-badget[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-carousel-wrapper[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-all-reviews-text[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-medals-section[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-ugc-media-wrapper[data-from-snippet="true"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_collected_via_store_invitation"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_collected_from_another_provider"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_collected_from_store_visitor"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_written_in_etsy"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_written_in_google_business"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_written_in_shop_app"] {
+  display: none !important
+}
+
+.jdgm-rev__transparency-badge[data-badge-type="review_earned_for_future_purchase"] {
+  display: none !important
+}
+
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__cards-container .jdgm-rev-snippet-card {
+  border-radius: 8px;
+  background: #fff
+}
+
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__cards-container .jdgm-rev-snippet-card__rev-rating .jdgm-star {
+  color: #108474
+}
+
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__prev-btn,
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__next-btn {
+  border-radius: 50%;
+  background: #fff
+}
+
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__prev-btn>svg,
+.jdgm-review-snippet-widget .jdgm-rev-snippet-widget__next-btn>svg {
+  fill: #000
+}
+
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jm-mfp-content,
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev__icon,
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev__pic-img,
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev__reply {
+  border-radius: 8px
+}
+
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev[data-verified-buyer="true"] .jdgm-full-rev__icon::after {
+  border-radius: 8px
+}
+
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev .jdgm-rev__buyer-badge {
+  border-radius: calc(8px / 2)
+}
+
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev .jdgm-full-rev__replier::before {
+  content: 'JustEvites'
+}
+
+.jdgm-full-rev-modal.rev-snippet-widget .jm-mfp-container .jdgm-full-rev .jdgm-full-rev__product-button {
+  border-radius: calc(8px * 6)
+}
+
+
+@-webkit-keyframes jdgm-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    -ms-transform: rotate(359deg);
+    transform: rotate(359deg)
+  }
+}
+
+@keyframes jdgm-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg)
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    -ms-transform: rotate(359deg);
+    transform: rotate(359deg)
+  }
+}
+
+@font-face {
+  font-family: 'JudgemeStar';
+  src: url("data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAScAA0AAAAABrAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAEgAAAABoAAAAcbyQ+3kdERUYAAARgAAAAHgAAACAAMwAGT1MvMgAAAZgAAABGAAAAVi+vS9xjbWFwAAAB8AAAAEAAAAFKwBMjvmdhc3AAAARYAAAACAAAAAj//wADZ2x5ZgAAAkAAAAEJAAABdH33LXtoZWFkAAABMAAAAC0AAAA2BroQKWhoZWEAAAFgAAAAHAAAACQD5QHQaG10eAAAAeAAAAAPAAAAFAYAAABsb2NhAAACMAAAAA4AAAAOAO4AeG1heHAAAAF8AAAAHAAAACAASgAvbmFtZQAAA0wAAADeAAABkorWfVZwb3N0AAAELAAAACkAAABEp3ubLXgBY2BkYADhPPP4OfH8Nl8ZuJkYQODS2fRrCPr/aSYGxq1ALgcDWBoAO60LkwAAAHgBY2BkYGDc+v80gx4TAwgASaAICmABAFB+Arl4AWNgZGBgYGPQYWBiAAIwyQgWc2AAAwAHVQB6eAFjYGRiYJzAwMrAwejDmMbAwOAOpb8ySDK0MDAwMbByMsCBAAMCBKS5pjA4PGB4wMR44P8BBj3GrQymQGFGkBwAjtgK/gAAeAFjYoAAEA1jAwAAZAAHAHgB3crBCcAwDEPRZydkih567CDdf4ZskmLwFBV8xBfCaC4BXkOUmx4sU0h2ngNb9V0vQCxaRKIAevT7fGWuBrEAAAAAAAAAAAA0AHgAugAAeAF9z79Kw1AUx/FzTm7un6QmJtwmQ5Bg1abgEGr/BAqlU6Gju+Cgg1MkQ/sA7Vj7BOnmO/gUvo2Lo14NqIO6/IazfD8HEODtmQCfoANwNsyp2/GJt3WKQrd1NLiYYWx2PBqOsmJMEOznPOTzfSCrhAtbbLdmeFLJV9eKd63WLrZcIcuaEVdssWCKM6pLCfTVOYbz/0pNSMSZKLIZpvh78sAUH6PlMrreTCabP9r+Z/puPZ2ur/RqpQHgh+MIegCnXeM4MRAPjYN//5tj4ZtTjkFqEdmeMShlEJ7tVAly2TAkx6R68Fl4E/aVvn8JqHFQ4JS1434gXKcuL31dDhzs3YbsEOAd/IU88gAAAHgBfY4xTgMxEEVfkk0AgRCioKFxQYd2ZRtpixxgRU2RfhU5q5VWseQ4JdfgAJyBlmNwAM7ABRhZQ0ORwp7nr+eZAa54YwYg9zm3ynPOeFRe8MCrciXOh/KSS76UV5L/iDmrLiS5AeU519wrL3jmSbkS5115yR2fyivJv9kx0ZMZ2RLZw27q87iNQi8EBo5FSPIMw3HqBboi5lKTGAGDp8FKXWP+t9TU01Lj5His1Ba6uM9dTEMwvrFmbf5GC/q2drW3ruXUhhsCiQOjznFlCzYhHUZp4xp76vsvQh89CQAAeAFjYGJABowM6IANLMrEyMTIzMjCXpyRWJBqZshWXJJYBKOMAFHFBucAAAAAAAAB//8AAngBY2BkYGDgA2IJBhBgAvKZGViBJAuYxwAABJsAOgAAeAFjYGBgZACCk535hiD60tn0azAaAEqpB6wAAA==") format("woff");
+  font-weight: normal;
+  font-style: normal
+}
+
+.jdgm-star {
+  font-family: 'JudgemeStar';
+  display: inline !important;
+  text-decoration: none !important;
+  padding: 0 4px 0 0 !important;
+  margin: 0 !important;
+  font-weight: bold;
+  opacity: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.jdgm-star:hover {
+  opacity: 1
+}
+
+.jdgm-star:last-of-type {
+  padding: 0 !important
+}
+
+.jdgm-star.jdgm--on:before {
+  content: "\e000"
+}
+
+.jdgm-star.jdgm--off:before {
+  content: "\e001"
+}
+
+.jdgm-star.jdgm--half:before {
+  content: "\e002"
+}
+
+.jdgm-widget * {
+  margin: 0;
+  line-height: 1.4;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch
+}
+
+.jdgm-hidden {
+  display: none !important;
+  visibility: hidden !important
+}
+
+.jdgm-temp-hidden {
+  display: none
+}
+
+.jdgm-spinner {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  border-radius: 50%;
+  border-top: 2px solid #eee;
+  border-right: 2px solid #eee;
+  border-bottom: 2px solid #eee;
+  border-left: 2px solid #ccc;
+  -webkit-animation: jdgm-spin 0.8s infinite linear;
+  animation: jdgm-spin 0.8s infinite linear
+}
+
+.jdgm-prev-badge {
+  display: block !important
+}
+
+
+:root {}
