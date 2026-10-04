@@ -369,7 +369,10 @@ html.intro-locked body {
   margin: 0;
   color: #fff;
   text-align: center;
-  font: 400 8cqw / 1.35 Cinzel, Georgia, serif;
+  font-family: Cinzel, Georgia, serif;
+  font-weight: 400;
+  font-size: 28px !important;
+  line-height: 1.25;
   text-transform: uppercase;
   text-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
 }
