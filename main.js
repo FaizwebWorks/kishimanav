@@ -60,6 +60,19 @@
     music.addEventListener('pause', updateMusicButton);
   }
   updateMusicButton();
+  if (music) {
+    music.muted = false;
+    var promise = music.play();
+    if (promise !== undefined) {
+      promise.catch(function() {
+        document.body.addEventListener('click', function playOnInteraction() {
+          music.play();
+          updateMusicButton();
+          document.body.removeEventListener('click', playOnInteraction);
+        }, { once: true });
+      });
+    }
+  }
 
   function updateScrollHint() {
     if (scrollHint) scrollHint.classList.toggle('is-hidden', window.scrollY > 80);
